@@ -4,75 +4,63 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lab 3</title>
-    <script src="/js/jquery-3.7.1.min.js"></script>
+    <title>Динамическая страница</title>
     <link rel="stylesheet" href="/css/bootstrap.min.css">
-    <script src="/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/jquery-3.7.1.min.js"></script>
     <script src="/js/script.js" defer></script>
 </head>
 
 <body>
-
     <div class="container">
-        <div class="row">
-            <h1>Обратная связь</h1>
-            <form id="contactForm">
-                <div class="form-group">
-                    <label for="name">Имя</label>
-                    <input type="text" class="form-control" id="name" required>
-                </div>
-                <div class="form-group">
-                    <label for="email">Электронная почта</label>
-                    <input type="email" class="form-control" id="email" required>
-                </div>
-                <div class="form-group">
-                    <label for="phone">Номер телефона</label>
-                    <input type="tel" class="form-control" id="phone" required pattern="[0-9]{10}">
-                </div>
-                <button type="submit" class="btn btn-primary">Отправить</button>
-            </form>
+        <h1 class="mt-3">Форма обратной связи</h1>
+        <br>
+        <form id="contactForm">
+            <div class="form-group">
+                <label for="name">Имя:</label>
+                <input type="text" class="form-control" id="name" required>
+            </div>
+            <br>
+            <div class="form-group">
+                <label for="email">Электронная почта:</label>
+                <input type="email" class="form-control" id="email" required>
+            </div>
+            <br>
+            <div class="form-group">
+                <label for="phone">Номер телефона:</label>
+                <input type="tel" class="form-control" id="phone" required>
+            </div>
+            <br>
+            <button type="submit" class="btn btn-primary">Отправить</button>
+        </form>
 
-            <div class="modal" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="messageModalLabel"
-                aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="messageModalLabel">Сообщение</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body" id="modalMessage"></div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
-                        </div>
-                    </div>
+        <br>
+        <hr>
+        <h2>Список данных</h2>
+        <br>
+        <input type="text" id="searchInput" placeholder="Поиск..." class="form-control mb-3">
+        <ul class="p-0" id="dataList"></ul>
+    </div>
+
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="myModalLabel">Уведомление</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p id="modalMessage"></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
                 </div>
             </div>
-
-            <h2 class="mt-5">Поиск</h2>
-            <input type="text" id="searchInput" class="form-control" placeholder="Поиск...">
-            <ul id="dataList" class="mt-3 list-group"></ul>
         </div>
     </div>
 
-    <script>
-        $(document).ready(function () {
-            $('#contactForm').on('submit', function (e) {
-                e.preventDefault();
-                const name = $('#name').val().trim();
-                const email = $('#email').val().trim();
-                const phone = $('#phone').val().trim();
-                if (name !== '' && email !== '' && phone !== '') {
-                    const newData = $('<li></li>').addClass('list-group-item').text(name);
-                    const deleteBtn = $('<button></button>').addClass('btn btn-danger left').text('Удалить').on('click', function () {
-                        $(this).parent().remove();
-                    });
-                    newData.append(' ').append(deleteBtn);
-                    $('#dataList').append(newData);
-                }
-            });
-        });
-    </script>
-
+    <script src="/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>

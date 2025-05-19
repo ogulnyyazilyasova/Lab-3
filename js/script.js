@@ -1,47 +1,56 @@
 $(document).ready(function () {
-    // Обработка формы
-    $("#contactForm").on("submit", function (event) {
-        event.preventDefault(); // Отключаем переход на другую страницу
+    $("form#contactForm").on("submit", function (event) {
+        event.preventDefault();
 
-        // Получаем значения полей
-        const name = $("#name").val();
-        const email = $("#email").val();
-        const phone = $("#phone").val();
+        const name = $("input#name").val();
+        const email = $("input#email").val();
+        const phone = $("input#phone").val();
 
-        // Проверка корректности данных
-        // if (!validateEmail(email) || !validatePhone(phone)) {
-        //     $("#modalMessage").text(
-        //         "Некорректные данные. Пожалуйста, проверьте введенные данные.",
-        //     );
-        //     $("#messageModal").modal("show");
-        //     return;
-        // }
+        const emailPattern = /^[^s@]+@[^s@]+.[^s@]+$/;
+        const phonePattern = /^\d{10,15}$/;
 
-        // Выводим данные в консоль
-        console.log("Имя:", name);
-        console.log("Электронная почта:", email);
-        console.log("Номер телефона:", phone);
+        if (!emailPattern.test(email)) {
+            showMessage("Некорректный адрес электронной почты.");
+            return;
+        }
 
-        // Отображаем сообщение об успешной отправке
-        $("#modalMessage").text("Данные успешно отправлены!");
-        $("#messageModal").modal("show");
+        if (!phonePattern.test(phone)) {
+            showMessage("Некорректный номер телефона.");
+            return;
+        }
 
-        // Очистка формы
-        $(this).trigger("reset");
+        if (name.trim() !== "" && email.trim() !== "" && phone.trim() !== "") {
+            const newData = $("<li></li>")
+                .addClass("list-group-item")
+                .text(
+                    `Имя: ${name} (<strong>Email:</strong> ${email}, Телефон: ${phone})`,
+                );
+
+            const deleteBtn = $("<button></button>")
+                .addClass("btn btn-outline-danger")
+                .text("Удалить")
+                .on("click", function () {
+                    $(this)
+                        .parent()
+                        .fadeOut(300, function () {
+                            $(this).remove();
+                        });
+                });
+
+            newData.append(" ").append(deleteBtn);
+            $("#dataList").append(newData);
+        }
+
+        console.log(`Имя: ${name}, Email: ${email}, Телефон: ${phone}`);
+        showMessage("Данные формы успешно обработаны и отправлены.");
+        $("#contactForm")[0].reset();
     });
 
-    // Функция для проверки электронной почты
-    function validateEmail(email) {
-        const re = /^[^s@]+@[^s@]+.[^s@]+$/;
-        return re.test(String(email).toLowerCase());
+    function showMessage(message) {
+        $("#modalMessage").text(message);
+        $("#myModal").modal("show");
     }
 
-    // Функция для проверки номера телефона
-    function validatePhone(phone) {
-        return phone.length === 10 && /^d+$/.test(phone);
-    }
-
-    // Функция поиска
     $("#searchInput").on("keyup", function () {
         const value = $(this).val().toLowerCase();
         $("#dataList li").filter(function () {
