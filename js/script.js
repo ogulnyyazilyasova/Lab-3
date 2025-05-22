@@ -23,7 +23,7 @@ $(document).ready(function () {
             const newData = $("<li></li>")
                 .addClass("list-group-item")
                 .text(
-                    `Имя: ${name} (<strong>Email:</strong> ${email}, Телефон: ${phone})`,
+                    `Имя: ${name} (Email: ${email}, Телефон: ${phone})`,
                 );
 
             const deleteBtn = $("<button></button>")
